@@ -14,36 +14,31 @@ void fillMatrixWithRandomNumbers(int *, int);
 int productOfNegativeElements(int *, int);
 int getNumberOfRows(); // Function to get the number of rows from the user
 void outputProduct(int); // Function to output the product
+char getUserChoice(); // Function to get user's choice for input method
 
 // Main function
 int main() {
-    char continueChoice; // Variable to store user's choice to continue or not
-    do {
-        int N = getNumberOfRows(); // Get the number of rows from the user
+    int N = getNumberOfRows(); // Get the number of rows from the user
 
-        // Declare a fixed-size array for the matrix
-        int B[MAX_ROWS * M]; // 1D array to represent a 2D matrix
+    // Declare a fixed-size array for the matrix
+    int B[MAX_ROWS * M]; // 1D array to represent a 2D matrix
 
-        // Ask the user if they want to input numbers or use random numbers
-        char choice;
-        printf("Do you want to input numbers for the matrix (yes/no)? ");
-        scanf(" %c", &choice);
+    // Get the user's choice for input method (user input or random numbers)
+    char choice = getUserChoice();
 
-        if (choice == 'y' || choice == 'Y') {
-            fillMatrixWithUserInput(B, N); // Fill the matrix with user input
-        } else {
-            fillMatrixWithRandomNumbers(B, N); // Fill the matrix with random numbers
-        }
-        
-        // Calculate the product of negative elements under the main diagonal
-        int product = productOfNegativeElements(B, N);
-        
-        // Output the product
-        outputProduct(product);
+    if (choice == 'y' || choice == 'Y') {
+        fillMatrixWithUserInput(B, N); // Fill the matrix with user input
+    } else {
+        fillMatrixWithRandomNumbers(B, N); // Fill the matrix with random numbers
+    }
+    
+    // Calculate the product of negative elements under the main diagonal
+    int product = productOfNegativeElements(B, N);
+    
+    // Output the product
+    outputProduct(product);
 
-    } while (continueChoice == 'y' || continueChoice == 'Y'); // Continue if the user inputs 'y' or 'Y'
-
-    return 0;
+    return 0; // Exit the program
 }
 
 // Function to get the number of rows from the user
@@ -68,6 +63,14 @@ void fillMatrixWithUserInput(int *B, int rows) {
             scanf("%d", &B[i * M + j]); // Calculate index for 1D array
         }
     }
+}
+
+// Function to get user's choice for input method
+char getUserChoice() {
+    char choice;
+    printf("Do you want to input numbers for the matrix (yes/no)? ");
+    scanf(" %c", &choice); // Get user's choice
+    return choice;
 }
 
 // Function to fill the matrix with random numbers
