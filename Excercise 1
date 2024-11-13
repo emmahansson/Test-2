@@ -1,0 +1,102 @@
+/* I used blackbox.ai. I conducted main and prototypes as well as I could and inserted them with task statement
+to blackbox and asked to create full code. I specified that maximum rows is 100.*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define M 4 // Number of columns
+#define MAX_ROWS 100 // Maximum number of rows
+
+// Function prototypes
+void fillMatrixWithUserInput(int *, int);
+void fillMatrixWithRandomNumbers(int *, int);
+int productOfNegativeElements(int *, int);
+int getNumberOfRows(); // Function to get the number of rows from the user
+void outputProduct(int); // Function to output the product
+
+// Main function
+int main() {
+    char continueChoice; // Variable to store user's choice to continue or not
+    do {
+        int N = getNumberOfRows(); // Get the number of rows from the user
+
+        // Declare a fixed-size array for the matrix
+        int B[MAX_ROWS * M]; // 1D array to represent a 2D matrix
+
+        // Ask the user if they want to input numbers or use random numbers
+        char choice;
+        printf("Do you want to input numbers for the matrix (yes/no)? ");
+        scanf(" %c", &choice);
+
+        if (choice == 'y' || choice == 'Y') {
+            fillMatrixWithUserInput(B, N); // Fill the matrix with user input
+        } else {
+            fillMatrixWithRandomNumbers(B, N); // Fill the matrix with random numbers
+        }
+        
+        // Calculate the product of negative elements under the main diagonal
+        int product = productOfNegativeElements(B, N);
+        
+        // Output the product
+        outputProduct(product);
+
+    } while (continueChoice == 'y' || continueChoice == 'Y'); // Continue if the user inputs 'y' or 'Y'
+
+    return 0;
+}
+
+// Function to get the number of rows from the user
+int getNumberOfRows() {
+    int N;
+    do {
+        printf("Enter the number of rows (greater than 1, up to %d): ", MAX_ROWS);
+        scanf("%d", &N);
+        if (N <= 1 || N > MAX_ROWS) {
+            printf("Invalid input! Please enter a number greater than 1 and less than or equal to %d.\n", MAX_ROWS);
+        }
+    } while (N <= 1 || N > MAX_ROWS);
+    return N;
+}
+
+// Function to fill the matrix with user input
+void fillMatrixWithUserInput(int *B, int rows) {
+    printf("Please enter the elements of the matrix (%d rows, %d columns):\n", rows, M);
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < M; j++) {
+            printf("Enter element [%d][%d]: ", i + 1, j + 1);
+            scanf("%d", &B[i * M + j]); // Calculate index for 1D array
+        }
+    }
+}
+
+// Function to fill the matrix with random numbers
+void fillMatrixWithRandomNumbers(int *B, int rows) {
+    srand(time(NULL)); // Seed for random number generation
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < M; j++) {
+            B[i * M + j] = rand() % 21 - 10; // Random numbers between -10 and 10
+        }
+    }
+}
+
+// Function to calculate the product of negative elements below the main diagonal
+int productOfNegativeElements(int *B, int rows) {
+    int product = 1;
+    int foundNegative = 0; // Flag to check if any negative element was found
+
+    for (int i = 1; i < rows; i++) { // Start from the second row
+        for (int j = 0; j < i; j++) { // Elements below the main diagonal
+            if (B[i * M + j] < 0) {
+                product *= B[i * M + j];
+                foundNegative = 1; // Mark that we found a negative element
+            }
+        }
+    }
+    return foundNegative ? product : 0; // Return product or 0 if no negatives found
+}
+
+// Function to output the product of negative elements
+void outputProduct(int product) {
+    printf("Product of negative elements below the main diagonal: %d\n", product); // Output the product
+}
