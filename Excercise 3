@@ -1,0 +1,84 @@
+/* I used blackbox.ai. I conducted main and prototypes as well as I could and inserted them with task statement
+to blackbox and asked to create full code. */
+
+#include <stdio.h>
+
+// Prototypes
+int AskForMatrixDimension();
+void AskForMatrixValues(int, int, int[][15]); 
+void GetColumnMinimums(int, int, int[][15], int[]);
+void OutputResults(int, int[]);												
+
+//Main function
+int main(void)
+{
+    // Input
+    int n = AskForMatrixDimension();
+    int m = AskForMatrixDimension();
+    int matrix[n][15]; // Assuming maximum columns are 15
+    
+    AskForMatrixValues(n, m, matrix);
+    
+    int minValues[15]; // Assuming maximum columns are 15
+    
+    // Processing
+    GetColumnMinimums(n, m, matrix, minValues);
+    
+    // Output
+    OutputResults(m, minValues);
+    
+    return 0;	
+}
+
+int AskForMatrixDimension() 
+{
+    int matrixDimension;
+    do
+    {
+        printf("Enter matrix dimension (between 2 and 15): ");
+        scanf("%d", &matrixDimension);
+        
+        if (matrixDimension < 2 || matrixDimension > 15)
+        {
+            printf("Wrong input\n");
+        }
+    } while (matrixDimension < 2 || matrixDimension > 15);
+    
+    return matrixDimension;
+}
+
+void AskForMatrixValues(int n, int m, int matrix[][15])
+{
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            printf("Enter value for matrix[%d][%d]: ", i + 1, j + 1);
+            scanf("%d", &matrix[i][j]);
+        }
+    }
+}
+
+void GetColumnMinimums(int n, int m, int matrix[][15], int minValues[]) 
+{
+    for (int j = 0; j < m; j++)
+    {
+        minValues[j] = matrix[0][j]; // Initialize with the first row's value
+        for (int i = 1; i < n; i++)
+        {
+            if (matrix[i][j] < minValues[j])
+            {
+                minValues[j] = matrix[i][j]; // Update minimum if a smaller value is found
+            }
+        }
+    }
+}
+
+void OutputResults(int m, int minValues[])
+{
+    printf("Minimum values in each column:\n");
+    for (int j = 0; j < m; j++)
+    {
+        printf("Column %d: %d\n", j + 1, minValues[j]);
+    }
+}
