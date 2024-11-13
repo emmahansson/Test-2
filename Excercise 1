@@ -12,13 +12,13 @@ to blackbox and asked to create full code. I specified that maximum rows is 100.
 void fillMatrixWithUserInput(int *, int);
 void fillMatrixWithRandomNumbers(int *, int);
 int productOfNegativeElements(int *, int);
-int getNumberOfRows(); // Function to get the number of rows from the user
-void outputProduct(int); // Function to output the product
-char getUserChoice(); // Function to get user's choice for input method
+int getNumberOfRows(); 
+void outputProduct(int); 
+char getUserChoice(); 
 
 // Main function
 int main() {
-    int N = getNumberOfRows(); // Get the number of rows from the user
+    int N = getNumberOfRows(); 
 
     // Declare a fixed-size array for the matrix
     int B[MAX_ROWS * M]; // 1D array to represent a 2D matrix
@@ -27,9 +27,9 @@ int main() {
     char choice = getUserChoice();
 
     if (choice == 'y' || choice == 'Y') {
-        fillMatrixWithUserInput(B, N); // Fill the matrix with user input
+        fillMatrixWithUserInput(B, N); 
     } else {
-        fillMatrixWithRandomNumbers(B, N); // Fill the matrix with random numbers
+        fillMatrixWithRandomNumbers(B, N); 
     }
     
     // Calculate the product of negative elements under the main diagonal
